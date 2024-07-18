@@ -14,6 +14,32 @@ class BookingRepository extends CrudRepository {
         });
         return response;
     }
+
+    async get(data, transaction) {
+        const response = await Booking.findByPk(data, {
+            transaction: transaction,
+        });
+        if (!response) {
+            throw new AppError(
+                "Not able to found the resource",
+                StatusCodes.NOT_FOUND
+            );
+        }
+        return response;
+    }
+
+    async update(id, data, transaction) {
+        const response = await Booking.update(
+            data,
+            {
+                where: {
+                    id: id,
+                },
+            },
+            { transaction: transaction }
+        );
+        return response;
+    }
 }
 
 module.exports = BookingRepository;
